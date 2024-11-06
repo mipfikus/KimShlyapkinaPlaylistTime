@@ -22,12 +22,18 @@ playlist_b = {
            'Опять метель': 3.37,
        }
 
-def get_duration():
-    # Код
+# Функция вычисления времени звучания
+def calculate_duration(playlist, songs):
+           if isinstance(playlist, list) and len(playlist) == 2:
+               indices = [playlist[0].index(song) for song in songs]
+               return sum(playlist[1][i] for i in indices)
+           elif isinstance(playlist, dict):
+               return sum(playlist[song] for song in songs)
+           else:
+               raise ValueError("Неверный формат плейлиста")
 
 # Функция выбора случайных песен
-def select_random_songs():
-    def select_random_songs(playlist, n):
+def select_random_songs(playlist, n):
            if isinstance(playlist, list) and len(playlist) == 2:
                return random.sample(list(zip(*playlist)[0]), n)
            elif isinstance(playlist, dict):
