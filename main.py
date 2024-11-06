@@ -25,8 +25,15 @@ playlist_b = {
 def get_duration():
     # Код
 
+# Функция выбора случайных песен
 def select_random_songs():
-    # Код
+    def select_random_songs(playlist, n):
+           if isinstance(playlist, list) and len(playlist) == 2:
+               return random.sample(list(zip(*playlist)[0]), n)
+           elif isinstance(playlist, dict):
+               return random.sample(list(playlist.keys()), n)
+           else:
+               raise ValueError("Неверный формат плейлиста")
 
 def calculate_duration():
     # Вызов функций get_duration() и select_random_songs()
