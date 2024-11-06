@@ -25,17 +25,23 @@ playlist_b = {
 # Функция вычисления времени звучания
 def calculate_duration(playlist, songs):
     if isinstance(playlist, list) and len(playlist) == 2:
-        indices = [playlist[0].index(song) for song in songs]
-        return sum(playlist[1][i] for i in indices)
+        indices = []
+        for song in songs:
+            if song in playlist[0]:
+                indices.append(playlist[0].index(song))
+        # Convert minutes to seconds for playlist_d
+        total_duration = sum(playlist[1][i] * 60 + playlist[1][i] % 1 * 100 for i in indices)  
+        return total_duration
     elif isinstance(playlist, dict):
-        return sum(playlist[song] for song in songs)
+        # No conversion needed for playlist_b (already in seconds)
+        return sum(playlist[song] * 60 + playlist[song] % 1 * 100 for song in songs if song in playlist) 
     else:
         raise ValueError("Неверный формат плейлиста")
 
 # Функция выбора случайных песен
 def select_random_songs(playlist, n):
     if isinstance(playlist, list) and len(playlist) == 2:
-        return random.sample(list(zip(*playlist)[0]), n)
+        return random.sample(playlist[0], n) 
     elif isinstance(playlist, dict):
         return random.sample(list(playlist.keys()), n)
     else:
@@ -45,4 +51,10 @@ def select_random_songs(playlist, n):
 def get_duration(playlist, n):
     selected_songs = select_random_songs(playlist, n)
     total_duration = calculate_duration(playlist, selected_songs)
-    return timedelta(hours=int(total_duration // 60), minutes=int(total_duration % 60), seconds=int(total_duration % 60))
+    hours = int(total_duration // 3600)
+    minutes = int((total_duration % 3600) // 60)
+    seconds = int(total_duration % 60)
+    return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+# вывод
+print(get_duration(playlist_d, 5))
