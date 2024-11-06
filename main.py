@@ -1,4 +1,7 @@
-# Создание необходимых функций
+# Импорт необходимых модулей
+
+import random
+from datetime import timedelta
 
 def get_duration():
     # Код
