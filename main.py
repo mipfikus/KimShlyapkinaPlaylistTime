@@ -49,6 +49,12 @@ def select_random_songs(playlist, n):
 
 # Итоговая функция 
 def get_duration(playlist, n):
+    if isinstance(playlist, list) and len(playlist) == 2:
+        if n > len(playlist[0]) or n <= 0:
+            return "Ошибка: Количество песен больше или меньше, чем в плейлисте"
+    elif isinstance(playlist, dict):
+        if n > len(playlist) or n <= 0:
+            return "Ошибка: Количество песен больше или меньше, чем в плейлисте"
     selected_songs = select_random_songs(playlist, n)
     total_duration = calculate_duration(playlist, selected_songs)
     hours = int(total_duration // 3600)
@@ -57,4 +63,4 @@ def get_duration(playlist, n):
     return timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
 # вывод
-print(get_duration(playlist_d, 5))
+print(get_duration(playlist_d, 12))
